@@ -1,91 +1,73 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
-var activeP int
-var pieces map[int]string
-var board []Stack
-var cols, rows int
-
-func setup() {
-	activeP = 1
-
-	pieces = map[int]string{
-		1: "X",
-		2: "O",
-	}
-
-	cols = 7
-	rows = 6
-
-	board = makeBoard(rows, cols)
+type Game struct {
+	p1      Player
+	p2      Player
+	activeP *Player
+	board   Board
+	r       *bufio.Reader
 }
 
-func makeBoard(rows int, cols int) (b []Stack) {
-	for i := 0; i < cols; i++ {
-		b = append(b, Stack{max: rows})
-	}
+func newGame() (g Game) {
+	g.p1 = Player{1, "X"}
+	g.p2 = Player{2, "O"}
+	g.activeP = &g.p1
+	g.board = NewBoard(6, 7)
+	g.r = bufio.NewReader(os.Stdin)
 	return
 }
 
-func printBoard(b []Stack) {
-	for i := rows - 1; i >= 0; i-- {
-		for j := 0; j < cols; j++ {
-			items := b[j].count
-			if items >= (i + 1) {
-				fmt.Printf(b[j].items[i])
-			} else {
-				fmt.Print("-")
-			}
-		}
-		fmt.Println()
-	}
-}
-
-func switchTurn() {
-	if activeP == 1 {
-		activeP = 2
+func (g Game) switchTurn() {
+	fmt.Println("player before switch", g.activeP.id)
+	if g.activeP.id == g.p1.id {
+		g.activeP = &g.p2
 	} else {
-		activeP = 1
+		g.activeP = &g.p1
 	}
-	printTurn()
+	fmt.Println("player after switch", g.activeP.id)
 }
 
-func printTurn() {
-	fmt.Printf("It is player %v's turn \n", activeP)
+func (g Game) printTurn() {
+	fmt.Printf("It is player %v's turn \n", g.activeP.id)
 }
 
-func makeMove(b []Stack, c int, p int) {
-	piece := pieces[p]
-	ok, err := b[c].Push(piece)
+func (g Game) takeTurn() {
+	g.printTurn()
+	fmt.Println("Which column do you want to play in?")
+	sCol, _ := g.r.ReadString('\n')
+	fmt.Println("column input: ", sCol)
+	col, _ := strconv.Atoi(strings.TrimSpace(sCol))
+	fmt.Printf("column chosen: %v, %T", col, col)
+	if (col >= g.board.cols) || (col < 0) {
+		fmt.Println("That's not a valid column.")
+		g.takeTurn()
+		return
+	}
+
+	ok, err := g.board.makeMove(col, g.activeP.piece)
 
 	if !ok {
 		fmt.Println(err)
+		g.takeTurn()
+		return
 	}
 
-	printBoard(b)
+	g.board.Print()
+	g.switchTurn()
+	return
 }
 
 func main() {
-	setup()
-	printBoard(board)
-	printTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
-	makeMove(board, 1, activeP)
-	switchTurn()
+	g := newGame()
+	g.board.Print()
+	g.takeTurn()
+	g.takeTurn()
 }

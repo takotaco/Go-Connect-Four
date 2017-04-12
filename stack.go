@@ -3,7 +3,7 @@ package main
 type StackErr struct{}
 
 func (e StackErr) Error() string {
-	return "stack is already full"
+	return "Column is already full"
 }
 
 type Stack struct {
