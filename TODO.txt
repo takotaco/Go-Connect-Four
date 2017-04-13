@@ -1,0 +1,8 @@
+√ win conditions
+√ separate private and public methods/attributes
+√ separate I/O (command) from logic (library)
+√ - connectFour package has game logic and library
+√ - main package has I/O and calls into the connectFour library
+√ better UX
+√ - grid
+√ - number the cols at the top
