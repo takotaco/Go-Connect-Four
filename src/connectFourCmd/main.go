@@ -14,13 +14,13 @@ type GameIO struct {
 	g *connectFour.Game
 }
 
-func setup() (i GameIO) {
-	i = GameIO{
-		bufio.NewReader(os.Stdin),
-		connectFour.NewGame(),
-	}
+func setup() GameIO {
+	g := connectFour.NewGame()
 
-	return
+	return GameIO{
+		bufio.NewReader(os.Stdin),
+		&g,
+	}
 }
 
 func (i GameIO) printBoard() {

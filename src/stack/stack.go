@@ -12,8 +12,8 @@ type Stack struct {
 	max   int
 }
 
-func New(max int) *Stack {
-	return &Stack{
+func New(max int) Stack {
+	return Stack{
 		max: max,
 	}
 }

@@ -11,10 +11,10 @@ type Game struct {
 	winningP *Player
 }
 
-func NewGame() *Game {
+func NewGame() Game {
 	p1 := NewPlayer(1, "X")
 	p2 := NewPlayer(2, "O")
-	return &Game{
+	return Game{
 		p1:       p1,
 		p2:       p2,
 		activeP:  &p1,
@@ -32,17 +32,17 @@ func (g *Game) switchTurn() {
 	}
 }
 
-type ColOutOfRangeError struct {
+type ErrColOutOfRange struct {
 	col int
 }
 
-func (e ColOutOfRangeError) Error() string {
+func (e ErrColOutOfRange) Error() string {
 	return fmt.Sprintf("%v is not a valid column", e.col)
 }
 
 func (g *Game) TakeTurn(col int) (ok bool, err error) {
 	if (col >= g.board.cols) || (col < 0) {
-		return false, ColOutOfRangeError{col}
+		return false, ErrColOutOfRange{col}
 	}
 
 	ok, err, win := g.board.MakeMove(col, g.activeP.piece)

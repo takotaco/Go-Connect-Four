@@ -6,7 +6,7 @@ import (
 )
 
 type Board struct {
-	board []*stack.Stack
+	board []stack.Stack
 	rows  int
 	cols  int
 }

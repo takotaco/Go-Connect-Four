@@ -6,3 +6,6 @@
 √ better UX
 √ - grid
 √ - number the cols at the top
+-more testing
+-go routines for win conditions
+-package naming conventions (all lowercase no spaces, just alphabet)
