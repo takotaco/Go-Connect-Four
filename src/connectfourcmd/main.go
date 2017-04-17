@@ -10,16 +10,16 @@ import (
 )
 
 type GameIO struct {
-	r *bufio.Reader
-	g *connectfour.Game
+	r bufio.Reader
+	g connectfour.Game
 }
 
 func setup() GameIO {
 	g := connectfour.NewGame()
 
 	return GameIO{
-		bufio.NewReader(os.Stdin),
-		&g,
+		*bufio.NewReader(os.Stdin),
+		g,
 	}
 }
 
@@ -48,7 +48,7 @@ func (i GameIO) ReadUserInput() int {
 	return col - 1
 }
 
-func (i GameIO) GameLoop() {
+func (i *GameIO) GameLoop() {
 	i.printTurn()
 	col := i.ReadUserInput()
 	ok, err := i.g.TakeTurn(col)
