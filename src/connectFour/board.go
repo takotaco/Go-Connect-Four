@@ -2,6 +2,7 @@ package connectfour
 
 import (
 	"fmt"
+	"math"
 	"stack"
 )
 
@@ -62,29 +63,39 @@ func (b Board) checkMove(col int, row int, piece string) (win bool) {
 	return
 }
 
-func (b Board) checkMoveHelper(col int, row int, piece string) (inARow int) {
+func (b Board) checkMoveHelper(col int, row int, piece string) int {
+	inARow := 0
+	max := 0
+
 	// check vertical
 	inARow = b.checkUp(col, row, piece) + b.checkDown(col, row, piece)
 	if inARow >= 3 {
-		return
+		return inARow
 	}
+	max = int(math.Max(float64(inARow), float64(max)))
+
 	// check horizontal
 	inARow = b.checkLeft(col, row, piece) + b.checkRight(col, row, piece)
 	if inARow >= 3 {
-		return
+		return inARow
 	}
+	max = int(math.Max(float64(inARow), float64(max)))
+
 	// check diagonal left up to right down
 	inARow = b.checkUpLeft(col, row, piece) + b.checkDownRight(col, row, piece)
 	if inARow >= 3 {
-		return
+		return inARow
 	}
+	max = int(math.Max(float64(inARow), float64(max)))
+
 	// check diagonal left down to right up
 	inARow = b.checkDownLeft(col, row, piece) + b.checkUpRight(col, row, piece)
 	if inARow >= 3 {
-		return
+		return inARow
 	}
+	max = int(math.Max(float64(inARow), float64(max)))
 
-	return
+	return max
 }
 
 func (b Board) checkUp(col int, row int, piece string) (inARow int) {
