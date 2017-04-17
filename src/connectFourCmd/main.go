@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"connectFour"
+	"connectfour"
 	"fmt"
 	"os"
 	"strconv"
@@ -11,11 +11,11 @@ import (
 
 type GameIO struct {
 	r *bufio.Reader
-	g *connectFour.Game
+	g *connectfour.Game
 }
 
 func setup() GameIO {
-	g := connectFour.NewGame()
+	g := connectfour.NewGame()
 
 	return GameIO{
 		bufio.NewReader(os.Stdin),

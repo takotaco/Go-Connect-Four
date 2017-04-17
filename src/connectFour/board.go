@@ -1,4 +1,4 @@
-package connectFour
+package connectfour
 
 import (
 	"fmt"
@@ -56,13 +56,13 @@ func (b *Board) MakeMove(col int, piece string) (ok bool, err error, win bool) {
 }
 
 func (b Board) checkMove(col int, row int, piece string) (win bool) {
-	if b.checkMoveHelper(col, row, piece, 1) >= 3 {
+	if b.checkMoveHelper(col, row, piece) >= 3 {
 		win = true
 	}
 	return
 }
 
-func (b Board) checkMoveHelper(col int, row int, piece string, streak int) (inARow int) {
+func (b Board) checkMoveHelper(col int, row int, piece string) (inARow int) {
 	// check vertical
 	inARow = b.checkUp(col, row, piece) + b.checkDown(col, row, piece)
 	if inARow >= 3 {

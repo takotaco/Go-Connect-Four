@@ -1,4 +1,4 @@
-package connectFour
+package connectfour
 
 type Player struct {
 	id    int

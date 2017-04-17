@@ -1,4 +1,4 @@
-package connectFour
+package connectfour
 
 import "fmt"
 
@@ -75,5 +75,9 @@ func (g Game) IsGameOver() bool {
 }
 
 func (g Game) GetWinningPlayer() Player {
-	return *g.winningP
+	if g.winningP != nil {
+		return *g.winningP
+	} else {
+		return Player{}
+	}
 }
